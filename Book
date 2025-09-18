@@ -1,128 +1,40 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-class Book {
+public class Book {
     private String title;
     private String author;
     private String ISBN;
-
-    public Book(String title, String author, String ISBN) {
-        this.title = title;
-        this.author = author;
-        this.ISBN = ISBN;
-    }
-
-    // Getters & Setters
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-
-    public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
-
-    public String getISBN() { return ISBN; }
-
-    @Override
-    public String toString() {
-        return "Title: " + title + ", Author: " + author + ", ISBN: " + ISBN;
-    }
-}
-
-public class Library {
     private static List<Book> bookCollection = new ArrayList<>();
-    private static Scanner sc = new Scanner(System.in);
 
-    public static void addBook() {
-        System.out.print("Enter Title: ");
-        String title = sc.nextLine();
-        System.out.print("Enter Author: ");
-        String author = sc.nextLine();
-        System.out.print("Enter ISBN: ");
-        String ISBN = sc.nextLine();
-
-        Book newBook = new Book(title, author, ISBN);
-        bookCollection.add(newBook);
-        System.out.println("✅ Book added successfully!\n");
+        public Book(String title, String author, String ISBN) {
     }
-
-    public static void removeBook() {
-        System.out.print("Enter ISBN to remove: ");
-        String ISBN = sc.nextLine();
-        boolean removed = bookCollection.removeIf(book -> book.getISBN().equals(ISBN));
-
-        if (removed) {
-            System.out.println("✅ Book removed successfully!\n");
-        } else {
-            System.out.println("❌ Book not found!\n");
-        }
+    
+    public static void addBook(Book book) {
+        bookCollection.add(book);
+        System.out.println("Book added: " + book.title);
     }
-
-    public static void updateBook() {
-        System.out.print("Enter ISBN to update: ");
-        String ISBN = sc.nextLine();
-        for (Book book : bookCollection) {
-            if (book.getISBN().equals(ISBN)) {
-                System.out.print("Enter new Title: ");
-                book.setTitle(sc.nextLine());
-                System.out.print("Enter new Author: ");
-                book.setAuthor(sc.nextLine());
-                System.out.println("✅ Book updated successfully!\n");
-                return;
-            }
-        }
-        System.out.println("❌ Book not found!\n");
+    
+    public static void removeBook(String ISBN) {
+        bookCollection.removeIf(book -> book.ISBN.equals(ISBN));
+        System.out.println("Book with ISBN " + ISBN + " removed");
     }
-
-    public static void searchBook() {
-        System.out.print("Enter Title or ISBN to search: ");
-        String input = sc.nextLine();
-        boolean found = false;
-
-        for (Book book : bookCollection) {
-            if (book.getTitle().equalsIgnoreCase(input) || book.getISBN().equals(input)) {
-                System.out.println("🔍 Found: " + book);
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("❌ No book found!\n");
-        }
-    }
-
+    
     public static void displayBooks() {
-        if (bookCollection.isEmpty()) {
-            System.out.println("📚 No books in the collection.\n");
-        } else {
-            System.out.println("\n📚 Book Collection:");
-            for (Book book : bookCollection) {
-                System.out.println(book);
-            }
-            System.out.println();
+        System.out.println("\nBook Collection:");
+        for (Book book : bookCollection) {
+            System.out.println("Title: " + book.title + ", Author: " + book.author + ", ISBN: " + book.ISBN);
         }
     }
-
-    public static void main(String[] args) {
-        int choice;
-        do {
-            System.out.println("===== Library Menu =====");
-            System.out.println("1. Add Book");
-            System.out.println("2. Remove Book");
-            System.out.println("3. Update Book");
-            System.out.println("4. Search Book");
-            System.out.println("5. Display All Books");
-            System.out.println("0. Exit");
-            System.out.print("Enter choice: ");
-            choice = Integer.parseInt(sc.nextLine());
-
-            switch (choice) {
-                case 1 -> addBook();
-                case 2 -> removeBook();
-                case 3 -> updateBook();
-                case 4 -> searchBook();
-                case 5 -> displayBooks();
-                case 0 -> System.out.println("👋 Exiting...");
-                default -> System.out.println("❌ Invalid choice!\n");
-            }
-        } while (choice != 0);
+        public static void main(String[] args) {
+        Book book1 = new Book("Java Programming", "John Doe", "123456");
+        Book book2 = new Book("Python Basics", "Jane Smith", "789012");
+        
+        addBook(book1);
+        addBook(book2);
+        displayBooks();
+        
+        removeBook("123456");
+        displayBooks();
     }
 }
