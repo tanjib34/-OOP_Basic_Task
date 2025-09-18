@@ -1,0 +1,38 @@
+public class EmployeeSalary {
+    private String name;
+    private String jobTitle;
+    private double salary;
+
+    public EmployeeSalary(String name, String jobTitle, double salary) {
+        this.name = name;
+        this.jobTitle = jobTitle;
+        this.salary = salary;
+    }
+
+    public double calculateBonus() {
+        return salary * 0.10;
+    }
+
+    public void updateSalary(double percentageIncrease) {
+        salary += salary * (percentageIncrease / 100);
+        System.out.println("Salary updated to: $" + salary);
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Job Title: " + jobTitle);
+        System.out.println("Salary: $" + salary);
+        System.out.println("Bonus: $" + calculateBonus());
+    }
+
+    public static void main(String[] args) {
+        EmployeeSalary emp = new EmployeeSalary("John Smith", "Software Developer", 60000);
+        
+        System.out.println("Employee Details:");
+        emp.displayDetails();
+        
+        System.out.println("\nAfter 15% salary increase:");
+        emp.updateSalary(15);
+        emp.displayDetails();
+    }
+}
