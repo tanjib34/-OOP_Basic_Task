@@ -1,0 +1,103 @@
+import java.util.Scanner;
+
+public class Circle {
+    private double radius;
+
+    // Constructor with validation
+    public Circle(double radius) {
+        if (radius <= 0) {
+            throw new IllegalArgumentException("❌ Radius must be positive!");
+        }
+        this.radius = radius;
+    }
+
+    // Getter & Setter
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        if (radius <= 0) {
+            System.out.println("❌ Invalid radius. Keeping old value: " + this.radius);
+            return;
+        }
+        this.radius = radius;
+    }
+
+    // Calculations
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+
+    public double calculateCircumference() {
+        return 2 * Math.PI * radius;
+    }
+
+    public double calculateDiameter() {
+        return 2 * radius;
+    }
+
+    // Compare circles
+    public static Circle largerCircle(Circle c1, Circle c2) {
+        return (c1.calculateArea() >= c2.calculateArea()) ? c1 : c2;
+    }
+
+    // Static utility method
+    public static double areaFromRadius(double radius) {
+        return Math.PI * radius * radius;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Create first circle
+        Circle c1 = new Circle(7.0);
+        System.out.println("Circle 1 (radius " + c1.getRadius() + "):");
+        System.out.println("Area: " + c1.calculateArea());
+        System.out.println("Circumference: " + c1.calculateCircumference());
+        System.out.println("Diameter: " + c1.calculateDiameter());
+
+        // Create another circle
+        Circle c2 = new Circle(10.0);
+        System.out.println("\nCircle 2 (radius " + c2.getRadius() + "):");
+        System.out.println("Area: " + c2.calculateArea());
+        System.out.println("Circumference: " + c2.calculateCircumference());
+        System.out.println("Diameter: " + c2.calculateDiameter());
+
+        // Compare circles
+        Circle larger = Circle.largerCircle(c1, c2);
+        System.out.println("\n✅ Larger Circle has radius: " + larger.getRadius());
+
+        // Static utility demo
+        System.out.println("\n🔹 Static method test (radius 5): Area = " + Circle.areaFromRadius(5));
+
+        // Menu-driven system
+        int choice;
+        do {
+            System.out.println("\n===== Circle Menu =====");
+            System.out.println("1. Set new radius");
+            System.out.println("2. Calculate Area");
+            System.out.println("3. Calculate Circumference");
+            System.out.println("4. Calculate Diameter");
+            System.out.println("0. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Enter new radius: ");
+                    double newR = sc.nextDouble();
+                    c1.setRadius(newR);
+                    System.out.println("✅ Radius updated to " + c1.getRadius());
+                }
+                case 2 -> System.out.println("Area: " + c1.calculateArea());
+                case 3 -> System.out.println("Circumference: " + c1.calculateCircumference());
+                case 4 -> System.out.println("Diameter: " + c1.calculateDiameter());
+                case 0 -> System.out.println("👋 Exiting...");
+                default -> System.out.println("❌ Invalid choice!");
+            }
+        } while (choice != 0);
+
+        sc.close();
+    }
+}
